@@ -18,6 +18,7 @@ class MessengerBot extends Adapter
 
   run: ->
     self = @
+    name = self.robot.name
     config =
       email: process.env.HUBOT_FB_USERNAME
       password: process.env.HUBOT_FB_PASSWORD
@@ -42,6 +43,14 @@ class MessengerBot extends Adapter
                 name: msg.senderName
                 id: msg.senderID
                 room: msg.threadID
+              if self.robot.alias
+                alias = self.robot.alias.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&') # escape alias for regexp
+                newRegex = new RegExp("^(?:#{self.robot.alias}[:,]?|#{name}[:,]?)", "i")
+              else
+                newRegex = new RegExp("^#{name}[:,]?", "i")
+                # Prefix message if there is no match
+              unless msg.body.match(newRegex)
+                msg.body = (name + " " ) + msg.body
               tmsg = new TextMessage(sender, msg.body)
               self.receive tmsg
             return
