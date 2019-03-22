@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/kimberli/hubot-messenger#readme",
   "dependencies": {
-    "facebook-chat-api": "^1.0.2",
+    "facebook-chat-api": "^1.6.1",
     "parent-require": "^1.0.0"
   }
 }
